@@ -2,6 +2,9 @@ package br.com.dio.bootcamp.domain.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "cursos")
 public class Curso {
@@ -11,6 +14,9 @@ public class Curso {
     private String titulo;
     private String descricao;
     private Integer cargaHoraria;
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Mentoria> mentorias = new ArrayList<>();
 
     public Curso() {
     }
@@ -51,5 +57,13 @@ public class Curso {
 
     public void setCargaHoraria(Integer cargaHoraria) {
         this.cargaHoraria = cargaHoraria;
+    }
+
+    public List<Mentoria> getMentorias() {
+        return mentorias;
+    }
+
+    public void setMentorias(List<Mentoria> mentorias) {
+        this.mentorias = mentorias;
     }
 }

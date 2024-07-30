@@ -14,6 +14,10 @@ public class Mentoria {
     private String descricao;
     private LocalDate data;
 
+    @ManyToOne
+    @JoinColumn(name = "curso_id")
+    private Curso curso;
+
     public Mentoria() {
     }
 
@@ -53,5 +57,13 @@ public class Mentoria {
 
     public void setData(LocalDate data) {
         this.data = data;
+    }
+
+    public Curso getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
     }
 }

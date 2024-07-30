@@ -14,6 +14,7 @@ public class CursoController {
 
     @PostMapping
     public Curso criarCurso(@RequestBody Curso curso) {
+        curso.getMentorias().forEach(mentoria -> mentoria.setCurso(curso));
         return cursoRepository.save(curso);
     }
 
@@ -34,6 +35,8 @@ public class CursoController {
             cursoExistente.setTitulo(curso.getTitulo());
             cursoExistente.setDescricao(curso.getDescricao());
             cursoExistente.setCargaHoraria(curso.getCargaHoraria());
+            cursoExistente.setMentorias(curso.getMentorias());
+            cursoExistente.getMentorias().forEach(mentoria -> mentoria.setCurso(cursoExistente));
             return cursoRepository.save(cursoExistente);
         }
         return null;
