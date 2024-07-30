@@ -18,8 +18,15 @@ public class Curso {
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Mentoria> mentorias = new ArrayList<>();
 
-    public Curso() {
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "curso_aluno",
+            joinColumns = @JoinColumn(name = "curso_id"),
+            inverseJoinColumns = @JoinColumn(name = "aluno_id")
+    )
+    private List<Aluno> alunos = new ArrayList<>();
+
+    public Curso() {}
 
     public Curso(String titulo, String descricao, Integer cargaHoraria) {
         this.titulo = titulo;
@@ -65,5 +72,13 @@ public class Curso {
 
     public void setMentorias(List<Mentoria> mentorias) {
         this.mentorias = mentorias;
+    }
+
+    public List<Aluno> getAlunos() {
+        return alunos;
+    }
+
+    public void setAlunos(List<Aluno> alunos) {
+        this.alunos = alunos;
     }
 }

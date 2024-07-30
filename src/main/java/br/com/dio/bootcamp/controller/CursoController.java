@@ -37,6 +37,7 @@ public class CursoController {
             cursoExistente.setCargaHoraria(curso.getCargaHoraria());
             cursoExistente.setMentorias(curso.getMentorias());
             cursoExistente.getMentorias().forEach(mentoria -> mentoria.setCurso(cursoExistente));
+            cursoExistente.setAlunos(curso.getAlunos());
             return cursoRepository.save(cursoExistente);
         }
         return null;
