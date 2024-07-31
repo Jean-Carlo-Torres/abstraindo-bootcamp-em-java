@@ -16,6 +16,9 @@ public class Curso {
     private Integer cargaHoraria;
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Aula> aulas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Mentoria> mentorias = new ArrayList<>();
 
     @ManyToMany
@@ -26,7 +29,8 @@ public class Curso {
     )
     private List<Aluno> alunos = new ArrayList<>();
 
-    public Curso() {}
+    public Curso() {
+    }
 
     public Curso(String titulo, String descricao, Integer cargaHoraria) {
         this.titulo = titulo;
@@ -64,6 +68,14 @@ public class Curso {
 
     public void setCargaHoraria(Integer cargaHoraria) {
         this.cargaHoraria = cargaHoraria;
+    }
+
+    public List<Aula> getAulas() {
+        return aulas;
+    }
+
+    public void setAulas(List<Aula> aulas) {
+        this.aulas = aulas;
     }
 
     public List<Mentoria> getMentorias() {

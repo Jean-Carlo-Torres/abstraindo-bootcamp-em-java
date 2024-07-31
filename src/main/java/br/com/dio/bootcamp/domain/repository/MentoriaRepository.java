@@ -1,4 +1,4 @@
-package br.com.dio.bootcamp.repository;
+package br.com.dio.bootcamp.domain.repository;
 
 import br.com.dio.bootcamp.domain.entities.Mentoria;
 import org.springframework.data.jpa.repository.JpaRepository;

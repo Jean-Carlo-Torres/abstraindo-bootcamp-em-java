@@ -2,8 +2,8 @@ package br.com.dio.bootcamp.controller;
 
 import br.com.dio.bootcamp.domain.entities.Aluno;
 import br.com.dio.bootcamp.domain.entities.Curso;
-import br.com.dio.bootcamp.repository.AlunoRepository;
-import br.com.dio.bootcamp.repository.CursoRepository;
+import br.com.dio.bootcamp.domain.repository.AlunoRepository;
+import br.com.dio.bootcamp.domain.repository.CursoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

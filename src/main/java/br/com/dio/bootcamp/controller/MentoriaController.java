@@ -1,7 +1,7 @@
 package br.com.dio.bootcamp.controller;
 
 import br.com.dio.bootcamp.domain.entities.Mentoria;
-import br.com.dio.bootcamp.repository.MentoriaRepository;
+import br.com.dio.bootcamp.domain.repository.MentoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

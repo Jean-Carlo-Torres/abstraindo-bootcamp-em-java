@@ -18,7 +18,8 @@ public class Aluno {
     @ManyToMany(mappedBy = "alunos")
     private List<Curso> cursos = new ArrayList<>();
 
-    public Aluno() {}
+    public Aluno() {
+    }
 
     public Aluno(String nome, String email) {
         this.nome = nome;
