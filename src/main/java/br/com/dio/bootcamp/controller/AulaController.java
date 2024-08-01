@@ -2,6 +2,7 @@ package br.com.dio.bootcamp.controller;
 
 import br.com.dio.bootcamp.domain.entities.Aula;
 import br.com.dio.bootcamp.domain.repository.AulaRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class AulaController {
     private AulaRepository aulaRepository;
 
     @PostMapping
-    public Aula criarAula(Aula aula) {
+    public Aula criarAula(@RequestBody @Valid Aula aula) {
         return aulaRepository.save(aula);
     }
 
@@ -23,12 +24,12 @@ public class AulaController {
     }
 
     @GetMapping("/{id}")
-    public Aula obterAulaPorId(Long id) {
+    public Aula obterAulaPorId(@PathVariable Long id) {
         return aulaRepository.findById(id).orElse(null);
     }
 
     @PutMapping("/{id}")
-    public Aula atualizarAula(@PathVariable Long id, @RequestBody Aula aulaAtualizada) {
+    public Aula atualizarAula(@PathVariable Long id, @RequestBody @Valid Aula aulaAtualizada) {
         Aula aulaExistente = aulaRepository.findById(id).orElse(null);
         if (aulaExistente != null) {
             aulaExistente.setTitulo(aulaAtualizada.getTitulo());

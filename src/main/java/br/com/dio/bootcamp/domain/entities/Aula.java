@@ -2,6 +2,9 @@ package br.com.dio.bootcamp.domain.entities;
 
 import br.com.dio.bootcamp.domain.enums.Materia;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "aulas")
@@ -9,16 +12,30 @@ public class Aula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Título é obrigatório")
+    @Column(nullable = false)
     private String titulo;
+
+    @NotBlank(message = "Descrição é obrigatória")
+    @Column(nullable = false)
     private String descricao;
+
+    @NotNull(message = "Duração é obrigatória")
+    @Min(value = 1, message = "Duração deve ser maior que zero")
+    @Column(nullable = false)
     private Integer duracao;
+
     @ManyToOne
     @JoinColumn(name = "curso_id")
     private Curso curso;
+
+    @Enumerated(EnumType.STRING)
     private Materia materia;
-    @ManyToOne
-    @JoinColumn(name = "professor_id")
+
+    @OneToOne(mappedBy = "aula", cascade = CascadeType.ALL)
     private Professor professor;
+
 
     public Aula() {
     }

@@ -4,6 +4,7 @@ import br.com.dio.bootcamp.domain.entities.Aluno;
 import br.com.dio.bootcamp.domain.entities.Curso;
 import br.com.dio.bootcamp.domain.repository.AlunoRepository;
 import br.com.dio.bootcamp.domain.repository.CursoRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class AlunoController {
     private CursoRepository cursoRepository;
 
     @PostMapping
-    public Aluno criarAluno(@RequestBody Aluno aluno) {
+    public Aluno criarAluno(@RequestBody @Valid Aluno aluno) {
         List<Curso> cursos = aluno.getCursos();
         List<Curso> cursosPersistidos = new ArrayList<>();
 
@@ -48,7 +49,7 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    public Aluno atualizarAluno(@PathVariable Long id, @RequestBody Aluno alunoAtualizado) {
+    public Aluno atualizarAluno(@PathVariable Long id, @RequestBody @Valid Aluno alunoAtualizado) {
         Aluno alunoExistente = alunoRepository.findById(id).orElse(null);
         if (alunoExistente != null) {
             alunoExistente.setNome(alunoAtualizado.getNome());

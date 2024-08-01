@@ -2,6 +2,7 @@ package br.com.dio.bootcamp.controller;
 
 import br.com.dio.bootcamp.domain.entities.Curso;
 import br.com.dio.bootcamp.domain.repository.CursoRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class CursoController {
     private CursoRepository cursoRepository;
 
     @PostMapping
-    public Curso criarCurso(@RequestBody Curso curso) {
+    public Curso criarCurso(@RequestBody @Valid Curso curso) {
         curso.getAulas().forEach(aula -> aula.setCurso(curso));
         curso.getMentorias().forEach(mentoria -> mentoria.setCurso(curso));
         return cursoRepository.save(curso);
@@ -30,7 +31,7 @@ public class CursoController {
     }
 
     @PutMapping("/{id}")
-    public Curso atualizarCurso(@PathVariable Long id, @RequestBody Curso curso) {
+    public Curso atualizarCurso(@PathVariable Long id, @RequestBody @Valid Curso curso) {
         Curso cursoExistente = cursoRepository.findById(id).orElse(null);
         if (cursoExistente != null) {
             cursoExistente.setTitulo(curso.getTitulo());

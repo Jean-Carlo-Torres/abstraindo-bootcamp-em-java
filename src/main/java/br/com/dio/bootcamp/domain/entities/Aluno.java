@@ -1,6 +1,8 @@
 package br.com.dio.bootcamp.domain.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,14 @@ public class Aluno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matricula;
+
+    @NotBlank(message = "Nome é obrigatório")
+    @Column(nullable = false)
     private String nome;
+
+    @Email(message = "Email deve ser válido")
+    @NotBlank(message = "Email é obrigatório")
+    @Column(nullable = false, unique = true)
     private String email;
 
     @ManyToMany(mappedBy = "alunos")

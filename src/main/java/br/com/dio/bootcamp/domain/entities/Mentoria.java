@@ -1,6 +1,8 @@
 package br.com.dio.bootcamp.domain.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -10,8 +12,17 @@ public class Mentoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Título é obrigatório")
+    @Column(nullable = false)
     private String titulo;
+
+    @NotBlank(message = "Descrição é obrigatória")
+    @Column(nullable = false)
     private String descricao;
+
+    @NotNull(message = "Data é obrigatória")
+    @Column(nullable = false)
     private LocalDate data;
 
     @ManyToOne
