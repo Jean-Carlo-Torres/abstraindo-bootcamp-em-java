@@ -9,6 +9,8 @@ import br.com.dio.bootcamp.infra.repository.AlunoRepository;
 import br.com.dio.bootcamp.infra.repository.AulaRepository;
 import br.com.dio.bootcamp.infra.repository.CursoRepository;
 import br.com.dio.bootcamp.infra.repository.MentoriaRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/curso")
+@Tag(name = "Curso", description = "Endpoints para gerenciamento de cursos")
 public class CursoController {
 
     @Autowired
@@ -32,7 +35,10 @@ public class CursoController {
     @Autowired
     private AlunoRepository alunoRepository;
 
-
+    @Operation(
+            summary = "Criar um novo curso",
+            description = "Cria um novo curso com base nos dados fornecidos"
+    )
     @PostMapping
     public Curso criarCurso(@RequestBody @Valid CursoDto dto) {
         Curso curso = new Curso(dto);
@@ -77,16 +83,28 @@ public class CursoController {
         return cursoRepository.save(curso);
     }
 
+    @Operation(
+            summary = "Listar todos os cursos",
+            description = "Retorna uma lista de todos os cursos cadastrados"
+    )
     @GetMapping
     public Iterable<Curso> listarCursos() {
         return cursoRepository.findAll();
     }
 
+    @Operation(
+            summary = "Buscar curso por ID",
+            description = "Retorna um curso pelo seu ID"
+    )
     @GetMapping("/{id}")
     public Curso buscarCurso(@PathVariable Long id) {
         return cursoRepository.findById(id).orElse(null);
     }
 
+    @Operation(
+            summary = "Atualizar curso",
+            description = "Atualiza um curso existente com base nos dados fornecidos"
+    )
     @PutMapping("/{id}")
     public Curso atualizarCurso(@PathVariable Long id, @RequestBody @Valid Curso curso) {
         Curso cursoExistente = cursoRepository.findById(id).orElse(null);
@@ -103,6 +121,10 @@ public class CursoController {
         return null;
     }
 
+    @Operation(
+            summary = "Excluir curso",
+            description = "Exclui um curso existente com base no ID fornecido"
+    )
     @DeleteMapping("/{id}")
     public void excluirCurso(@PathVariable Long id) {
         cursoRepository.deleteById(id);
