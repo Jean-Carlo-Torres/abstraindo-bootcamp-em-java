@@ -1,5 +1,6 @@
 package br.com.dio.bootcamp.domain.entities;
 
+import br.com.dio.bootcamp.application.dtos.CursoDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -45,10 +46,10 @@ public class Curso {
     public Curso() {
     }
 
-    public Curso(String titulo, String descricao, Integer cargaHoraria) {
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.cargaHoraria = cargaHoraria;
+    public Curso(CursoDto dados) {
+        this.titulo = dados.titulo();
+        this.descricao = dados.descricao();
+        this.cargaHoraria = dados.cargaHoraria();
     }
 
     public Long getId() {

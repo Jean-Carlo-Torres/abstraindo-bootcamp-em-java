@@ -1,5 +1,6 @@
 package br.com.dio.bootcamp.domain.entities;
 
+import br.com.dio.bootcamp.application.dtos.AlunoDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -30,9 +31,9 @@ public class Aluno {
     public Aluno() {
     }
 
-    public Aluno(String nome, String email) {
-        this.nome = nome;
-        this.email = email;
+    public Aluno(AlunoDto dados) {
+        this.nome = dados.nome();
+        this.email = dados.email();
     }
 
     public Long getMatricula() {

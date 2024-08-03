@@ -1,7 +1,8 @@
-package br.com.dio.bootcamp.controller;
+package br.com.dio.bootcamp.ui.controller;
 
+import br.com.dio.bootcamp.application.dtos.MentoriaDto;
 import br.com.dio.bootcamp.domain.entities.Mentoria;
-import br.com.dio.bootcamp.domain.repository.MentoriaRepository;
+import br.com.dio.bootcamp.infra.repository.MentoriaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,8 @@ public class MentoriaController {
     private MentoriaRepository mentoriaRepository;
 
     @PostMapping
-    public Mentoria criarMentoria(@RequestBody @Valid Mentoria mentoria) {
+    public Mentoria criarMentoria(@RequestBody @Valid MentoriaDto dto) {
+        Mentoria mentoria = new Mentoria(dto);
         return mentoriaRepository.save(mentoria);
     }
 
@@ -29,7 +31,8 @@ public class MentoriaController {
     }
 
     @PutMapping("/{id}")
-    public Mentoria atualizarMentoria(@PathVariable Long id, @RequestBody @Valid Mentoria mentoriaAtualizada) {
+    public Mentoria atualizarMentoria(@PathVariable Long id, @RequestBody @Valid MentoriaDto dto) {
+        Mentoria mentoriaAtualizada = new Mentoria(dto);
         Mentoria mentoria = mentoriaRepository.findById(id).orElse(null);
         if (mentoria != null) {
             mentoria.setTitulo(mentoriaAtualizada.getTitulo());

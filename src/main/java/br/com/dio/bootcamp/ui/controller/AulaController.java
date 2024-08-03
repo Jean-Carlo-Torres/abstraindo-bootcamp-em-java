@@ -1,7 +1,8 @@
-package br.com.dio.bootcamp.controller;
+package br.com.dio.bootcamp.ui.controller;
 
+import br.com.dio.bootcamp.application.dtos.AulaDto;
 import br.com.dio.bootcamp.domain.entities.Aula;
-import br.com.dio.bootcamp.domain.repository.AulaRepository;
+import br.com.dio.bootcamp.infra.repository.AulaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,8 @@ public class AulaController {
     private AulaRepository aulaRepository;
 
     @PostMapping
-    public Aula criarAula(@RequestBody @Valid Aula aula) {
+    public Aula criarAula(@RequestBody @Valid AulaDto dados) {
+        Aula aula = new Aula(dados);
         return aulaRepository.save(aula);
     }
 
@@ -29,15 +31,15 @@ public class AulaController {
     }
 
     @PutMapping("/{id}")
-    public Aula atualizarAula(@PathVariable Long id, @RequestBody @Valid Aula aulaAtualizada) {
+    public Aula atualizarAula(@PathVariable Long id, @RequestBody @Valid AulaDto dados) {
         Aula aulaExistente = aulaRepository.findById(id).orElse(null);
         if (aulaExistente != null) {
-            aulaExistente.setTitulo(aulaAtualizada.getTitulo());
-            aulaExistente.setDescricao(aulaAtualizada.getDescricao());
-            aulaExistente.setDuracao(aulaAtualizada.getDuracao());
-            aulaExistente.setCurso(aulaAtualizada.getCurso());
-            aulaExistente.setMateria(aulaAtualizada.getMateria());
-            aulaExistente.setProfessor(aulaAtualizada.getProfessor());
+            aulaExistente.setTitulo(dados.titulo());
+            aulaExistente.setDescricao(dados.descricao());
+            aulaExistente.setDuracao(dados.duracao());
+            aulaExistente.setCurso(dados.curso());
+            aulaExistente.setMateria(dados.materia());
+            aulaExistente.setProfessor(dados.professor());
             return aulaRepository.save(aulaExistente);
         }
         return null;
@@ -47,5 +49,5 @@ public class AulaController {
     public void excluirAula(@PathVariable Long id) {
         aulaRepository.deleteById(id);
     }
-
 }
+

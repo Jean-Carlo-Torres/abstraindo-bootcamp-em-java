@@ -1,4 +1,4 @@
-package br.com.dio.bootcamp.domain.repository;
+package br.com.dio.bootcamp.infra.repository;
 
 import br.com.dio.bootcamp.domain.entities.Aluno;
 import org.springframework.data.jpa.repository.JpaRepository;

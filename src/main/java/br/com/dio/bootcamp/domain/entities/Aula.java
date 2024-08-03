@@ -1,5 +1,6 @@
 package br.com.dio.bootcamp.domain.entities;
 
+import br.com.dio.bootcamp.application.dtos.AulaDto;
 import br.com.dio.bootcamp.domain.enums.Materia;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -40,13 +41,13 @@ public class Aula {
     public Aula() {
     }
 
-    public Aula(String titulo, String descricao, Integer duracao, Curso curso, Materia materia, Professor professor) {
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.duracao = duracao;
-        this.curso = curso;
-        this.materia = materia;
-        this.professor = professor;
+    public Aula(AulaDto dados) {
+        this.titulo = dados.titulo();
+        this.descricao = dados.descricao();
+        this.duracao = dados.duracao();
+        this.curso = dados.curso();
+        this.materia = dados.materia();
+        this.professor = dados.professor();
     }
 
     public Long getId() {

@@ -1,5 +1,6 @@
 package br.com.dio.bootcamp.domain.entities;
 
+import br.com.dio.bootcamp.application.dtos.MentoriaDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,10 +33,11 @@ public class Mentoria {
     public Mentoria() {
     }
 
-    public Mentoria(String titulo, String descricao, LocalDate data) {
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.data = data;
+    public Mentoria(MentoriaDto dados) {
+        this.titulo = dados.titulo();
+        this.descricao = dados.descricao();
+        this.data = dados.data();
+        this.curso = dados.curso();
     }
 
     public Long getId() {

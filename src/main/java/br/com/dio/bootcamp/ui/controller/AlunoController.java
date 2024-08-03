@@ -1,9 +1,10 @@
-package br.com.dio.bootcamp.controller;
+package br.com.dio.bootcamp.ui.controller;
 
+import br.com.dio.bootcamp.application.dtos.AlunoDto;
 import br.com.dio.bootcamp.domain.entities.Aluno;
 import br.com.dio.bootcamp.domain.entities.Curso;
-import br.com.dio.bootcamp.domain.repository.AlunoRepository;
-import br.com.dio.bootcamp.domain.repository.CursoRepository;
+import br.com.dio.bootcamp.infra.repository.AlunoRepository;
+import br.com.dio.bootcamp.infra.repository.CursoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,19 +23,17 @@ public class AlunoController {
     private CursoRepository cursoRepository;
 
     @PostMapping
-    public Aluno criarAluno(@RequestBody @Valid Aluno aluno) {
-        List<Curso> cursos = aluno.getCursos();
-        List<Curso> cursosPersistidos = new ArrayList<>();
-
-        for (Curso curso : cursos) {
+    public Aluno criarAluno(@RequestBody @Valid AlunoDto dto) {
+        Aluno aluno = new Aluno(dto);
+        List<Curso> cursos = new ArrayList<>();
+        for (Curso curso : dto.cursos()) {
             Curso cursoPersistido = cursoRepository.findById(curso.getId()).orElse(null);
             if (cursoPersistido != null) {
-                cursosPersistidos.add(cursoPersistido);
+                cursos.add(cursoPersistido);
                 cursoPersistido.getAlunos().add(aluno);
             }
         }
-
-        aluno.setCursos(cursosPersistidos);
+        aluno.setCursos(cursos);
         return alunoRepository.save(aluno);
     }
 
@@ -49,24 +48,12 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    public Aluno atualizarAluno(@PathVariable Long id, @RequestBody @Valid Aluno alunoAtualizado) {
+    public Aluno atualizarAluno(@PathVariable Long id, @RequestBody @Valid AlunoDto alunoAtualizado) {
         Aluno alunoExistente = alunoRepository.findById(id).orElse(null);
         if (alunoExistente != null) {
-            alunoExistente.setNome(alunoAtualizado.getNome());
-            alunoExistente.setEmail(alunoAtualizado.getEmail());
-
-            List<Curso> cursos = alunoAtualizado.getCursos();
-            List<Curso> cursosPersistidos = new ArrayList<>();
-
-            for (Curso curso : cursos) {
-                Curso cursoPersistido = cursoRepository.findById(curso.getId()).orElse(null);
-                if (cursoPersistido != null) {
-                    cursosPersistidos.add(cursoPersistido);
-                    cursoPersistido.getAlunos().add(alunoExistente);
-                }
-            }
-
-            alunoExistente.setCursos(cursosPersistidos);
+            alunoExistente.setNome(alunoAtualizado.nome());
+            alunoExistente.setEmail(alunoAtualizado.email());
+            alunoExistente.setCursos(alunoAtualizado.cursos());
             return alunoRepository.save(alunoExistente);
         }
         return null;
@@ -77,4 +64,3 @@ public class AlunoController {
         alunoRepository.deleteById(id);
     }
 }
-

@@ -1,5 +1,6 @@
 package br.com.dio.bootcamp.domain.entities;
 
+import br.com.dio.bootcamp.application.dtos.ProfessorDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -25,9 +26,10 @@ public class Professor {
     public Professor() {
     }
 
-    public Professor(String nome, String especialidade) {
-        this.nome = nome;
-        this.especialidade = especialidade;
+    public Professor(ProfessorDto dados) {
+        this.nome = dados.nome();
+        this.especialidade = dados.especialidade();
+        this.aula = dados.aula();
     }
 
     public Long getId() {

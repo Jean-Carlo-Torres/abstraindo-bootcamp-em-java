@@ -1,7 +1,9 @@
-package br.com.dio.bootcamp.controller;
+package br.com.dio.bootcamp.ui.controller;
 
+import br.com.dio.bootcamp.application.dtos.ProfessorDto;
 import br.com.dio.bootcamp.domain.entities.Professor;
-import br.com.dio.bootcamp.domain.repository.ProfessorRepository;
+import br.com.dio.bootcamp.infra.repository.AulaRepository;
+import br.com.dio.bootcamp.infra.repository.ProfessorRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +15,14 @@ public class ProfessorController {
     @Autowired
     private ProfessorRepository professorRepository;
 
+    @Autowired
+    private AulaRepository aulaRepository;
+
     @PostMapping
-    public Professor criarProfessor(@RequestBody @Valid Professor professor) {
+    public Professor criarProfessor(@RequestBody @Valid ProfessorDto dto) {
+        Professor professor = new Professor(dto);
+        aulaRepository.findById(dto.aula().getId())
+                .ifPresent(professor::setAula);
         return professorRepository.save(professor);
     }
 
