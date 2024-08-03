@@ -4,7 +4,9 @@ import br.com.dio.bootcamp.application.dtos.AlunoDto;
 import br.com.dio.bootcamp.domain.entities.Aluno;
 import br.com.dio.bootcamp.domain.entities.Curso;
 import br.com.dio.bootcamp.infra.repository.AlunoRepository;
+import br.com.dio.bootcamp.infra.repository.AulaRepository;
 import br.com.dio.bootcamp.infra.repository.CursoRepository;
+import br.com.dio.bootcamp.infra.repository.MentoriaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,12 @@ public class AlunoController {
 
     @Autowired
     private CursoRepository cursoRepository;
+
+    @Autowired
+    private AulaRepository aulaRepository;
+
+    @Autowired
+    private MentoriaRepository mentoriaRepository;
 
     @PostMapping
     public Aluno criarAluno(@RequestBody @Valid AlunoDto dto) {
@@ -54,6 +62,53 @@ public class AlunoController {
             alunoExistente.setNome(alunoAtualizado.nome());
             alunoExistente.setEmail(alunoAtualizado.email());
             alunoExistente.setCursos(alunoAtualizado.cursos());
+            return alunoRepository.save(alunoExistente);
+        }
+        return null;
+    }
+
+    @PatchMapping("/{id}/conclusao/aula")
+    public Aluno atualizarXpAlunoAoConcluirAula(@PathVariable Long id) {
+        Aluno alunoExistente = alunoRepository.findById(id).orElse(null);
+        if (alunoExistente != null) {
+            int xp = 10;
+            Integer xpAtual = alunoExistente.getXp();
+            if (xpAtual == null) {
+                xpAtual = 0;
+            }
+            alunoExistente.setXp(xpAtual + xp);
+            return alunoRepository.save(alunoExistente);
+        }
+        return null;
+    }
+
+
+    @PatchMapping("/{id}/conclusao/mentoria")
+    public Aluno atualizarXpAlunoAoConcluirMentoria(@PathVariable Long id) {
+        Aluno alunoExistente = alunoRepository.findById(id).orElse(null);
+        if (alunoExistente != null) {
+            int xp = 20;
+            Integer xpAtual = alunoExistente.getXp();
+            if (xpAtual == null) {
+                xpAtual = 0;
+            }
+            alunoExistente.setXp(xpAtual + xp);
+            return alunoRepository.save(alunoExistente);
+        }
+
+        return null;
+    }
+
+    @PatchMapping("/{id}/conclusao/curso")
+    public Aluno atualizarXpAlunoAoConcluirCurso(@PathVariable Long id) {
+        Aluno alunoExistente = alunoRepository.findById(id).orElse(null);
+        if (alunoExistente != null) {
+            int xp = 50;
+            Integer xpAtual = alunoExistente.getXp();
+            if (xpAtual == null) {
+                xpAtual = 0;
+            }
+            alunoExistente.setXp(xpAtual + xp);
             return alunoRepository.save(alunoExistente);
         }
         return null;

@@ -28,12 +28,15 @@ public class Aluno {
     @ManyToMany(mappedBy = "alunos")
     private List<Curso> cursos = new ArrayList<>();
 
+    private Integer xp;
+
     public Aluno() {
     }
 
     public Aluno(AlunoDto dados) {
         this.nome = dados.nome();
         this.email = dados.email();
+        this.xp = 0;
     }
 
     public Long getMatricula() {
@@ -66,5 +69,17 @@ public class Aluno {
 
     public void setCursos(List<Curso> cursos) {
         this.cursos = cursos;
+    }
+
+    public Integer getXp() {
+        return xp;
+    }
+
+    public void setXp(Integer xp) {
+        if (xp < 0) {
+            this.xp = 0;
+        } else {
+            this.xp = xp;
+        }
     }
 }
