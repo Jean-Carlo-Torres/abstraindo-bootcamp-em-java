@@ -12,9 +12,9 @@ public record CursoDto(
         String titulo,
         String descricao,
         Integer cargaHoraria,
-        List<Aula> aulas,
-        List<Mentoria> mentorias,
-        List<Aluno> alunos
+        List<Long> aulas,
+        List<Long> mentorias,
+        List<Long> alunos
 ) {
     public CursoDto {
         if (aulas == null) {
@@ -33,9 +33,9 @@ public record CursoDto(
                 curso.getTitulo(),
                 curso.getDescricao(),
                 curso.getCargaHoraria(),
-                curso.getAulas(),
-                curso.getMentorias(),
-                curso.getAlunos()
+                curso.getAulas().stream().map(Aula::getId).toList(),
+                curso.getMentorias().stream().map(Mentoria::getId).toList(),
+                curso.getAlunos().stream().map(Aluno::getMatricula).toList()
         );
     }
 }

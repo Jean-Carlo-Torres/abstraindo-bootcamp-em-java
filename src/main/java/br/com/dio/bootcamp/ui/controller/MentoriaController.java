@@ -1,12 +1,13 @@
 package br.com.dio.bootcamp.ui.controller;
 
 import br.com.dio.bootcamp.application.dtos.MentoriaDto;
+import br.com.dio.bootcamp.application.services.MentoriaService;
 import br.com.dio.bootcamp.domain.entities.Mentoria;
-import br.com.dio.bootcamp.infra.repository.MentoriaRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class MentoriaController {
 
     @Autowired
-    private MentoriaRepository mentoriaRepository;
+    private MentoriaService mentoriaService;
 
     @Operation(
             summary = "Criar uma nova mentoria",
@@ -23,8 +24,7 @@ public class MentoriaController {
     )
     @PostMapping
     public Mentoria criarMentoria(@RequestBody @Valid MentoriaDto dto) {
-        Mentoria mentoria = new Mentoria(dto);
-        return mentoriaRepository.save(mentoria);
+        return mentoriaService.criarMentoria(dto);
     }
 
     @Operation(
@@ -33,7 +33,7 @@ public class MentoriaController {
     )
     @GetMapping
     public Iterable<Mentoria> obterMentorias() {
-        return mentoriaRepository.findAll();
+        return mentoriaService.obterMentorias();
     }
 
     @Operation(
@@ -42,7 +42,7 @@ public class MentoriaController {
     )
     @GetMapping("/{id}")
     public Mentoria obterMentoriaPorId(@PathVariable Long id) {
-        return mentoriaRepository.findById(id).orElse(null);
+        return mentoriaService.obterMentoriaPorId(id);
     }
 
     @Operation(
@@ -50,16 +50,9 @@ public class MentoriaController {
             description = "Atualiza uma mentoria existente com base nos dados fornecidos"
     )
     @PutMapping("/{id}")
-    public Mentoria atualizarMentoria(@PathVariable Long id, @RequestBody @Valid MentoriaDto dto) {
-        Mentoria mentoriaAtualizada = new Mentoria(dto);
-        Mentoria mentoria = mentoriaRepository.findById(id).orElse(null);
-        if (mentoria != null) {
-            mentoria.setTitulo(mentoriaAtualizada.getTitulo());
-            mentoria.setDescricao(mentoriaAtualizada.getDescricao());
-            mentoria.setData(mentoriaAtualizada.getData());
-            return mentoriaRepository.save(mentoria);
-        }
-        return null;
+    public ResponseEntity<Mentoria> atualizarMentoria(@PathVariable Long id, @RequestBody @Valid MentoriaDto dto) {
+        Mentoria mentoria = mentoriaService.atualizarMentoria(id, dto);
+        return mentoria != null ? ResponseEntity.ok(mentoria) : ResponseEntity.notFound().build();
     }
 
     @Operation(
@@ -68,6 +61,6 @@ public class MentoriaController {
     )
     @DeleteMapping("/{id}")
     public void deletarMentoria(@PathVariable Long id) {
-        mentoriaRepository.deleteById(id);
+        mentoriaService.excluirMentoria(id);
     }
 }
