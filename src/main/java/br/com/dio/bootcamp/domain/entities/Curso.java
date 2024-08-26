@@ -2,9 +2,6 @@ package br.com.dio.bootcamp.domain.entities;
 
 import br.com.dio.bootcamp.application.dtos.CursoDto;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,16 +13,12 @@ public class Curso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Título é obrigatório")
     @Column(nullable = false)
     private String titulo;
 
-    @NotBlank(message = "Descrição é obrigatória")
     @Column(nullable = false)
     private String descricao;
 
-    @NotNull(message = "Carga horária é obrigatória")
-    @Min(value = 1, message = "Carga horária deve ser maior que 0")
     @Column(nullable = false)
     private Integer cargaHoraria;
 

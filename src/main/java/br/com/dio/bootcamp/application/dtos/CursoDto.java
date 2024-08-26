@@ -4,13 +4,20 @@ import br.com.dio.bootcamp.domain.entities.Aluno;
 import br.com.dio.bootcamp.domain.entities.Aula;
 import br.com.dio.bootcamp.domain.entities.Curso;
 import br.com.dio.bootcamp.domain.entities.Mentoria;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public record CursoDto(
+        @NotBlank(message = "Título é obrigatório")
         String titulo,
+        @NotBlank(message = "Descrição é obrigatória")
         String descricao,
+        @NotNull(message = "Carga horária é obrigatória")
+        @Min(value = 1, message = "Carga horária deve ser maior que 0")
         Integer cargaHoraria,
         List<Long> aulas,
         List<Long> mentorias,
